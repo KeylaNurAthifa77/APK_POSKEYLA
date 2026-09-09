@@ -1,4 +1,4 @@
-{{-- CSS Tambahan Khusus Halaman Dashboard --}}
+{{-- -- CSS Tambahan Khusus Halaman Dashboard -- --}}
 @push('css')
 <style>
     /* Penyesuaian aksen teks coral lembut */
@@ -16,6 +16,32 @@
         align-items: center;
         justify-content: center;
     }
+
+    /* Style Banner Hero Visual: Diubah menjadi Putih Bersih */
+    .hero-banner {
+        background: #ffffff url('{{ asset("images/boutique-interior.jpg") }}') center/cover no-repeat;
+        /* Tambahan overlay putih tipis agar gambar latar belakang sedikit tersamarkan jika ada, atau gunakan murni #ffffff */
+        background-blend-mode: overlay;
+        background-color: #ffffff;
+        border-radius: 20px;
+        color: #2d2d2d; /* Warna teks utama menjadi gelap agar kontras di atas background putih */
+        padding: 40px 30px;
+        border: 1px solid #fde8e5;
+    }
+
+    /* Penyesuaian warna subteks di dalam hero banner agar terbaca jelas */
+    .hero-banner p {
+        color: #6c757d !important;
+    }
+
+    /* Style Thumbnail Produk */
+    .product-img-thumb {
+        width: 48px;
+        height: 48px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 1px solid #fde8e5;
+    }
 </style>
 @endpush
 
@@ -29,35 +55,36 @@
 @section('content')
 <div class="container">
 
-    {{-- Header Halaman --}}
-    <div class="row mb-4 align-items-center">
-        <div class="col-lg-8">
-            <h2 class="fw-bold text-dark mb-1">Dashboard Ringkasan</h2>
-            <p class="text-secondary fs-5 mb-0">
-                {{ $tanggalHariIni->translatedFormat('l, d F Y') }}
-            </p>
-        </div>
-        <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-            <span class="badge rounded-pill px-4 py-3 fs-6" style="background:#fde8e5; color:#d86c58;">
-                <i class="bi bi-calendar-heart me-2"></i> Hari Ini
-            </span>
+    {{-- Banner Header Visual --}}
+    <div class="hero-banner mb-4 shadow-sm">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1 class="fw-bold mb-1 text-coral">Maison Fashion Boutique</h1>
+                <p class="fs-5 mb-0">
+                    {{ $tanggalHariIni->translatedFormat('l, d F Y') }}
+                </p>
+            </div>
+            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
+                <span class="badge rounded-pill px-4 py-3 fs-6 bg-light text-coral border shadow-sm">
+                    <i class="bi bi-calendar-heart me-2"></i> Hari Ini
+                </span>
+            </div>
         </div>
     </div>
 
     {{-- ==========================================
-         NO. 3: KARTU RINGKASAN STATISTIK
+         KARTU RINGKASAN STATISTIK
     ========================================== --}}
-    @can('viewAny', App\Models\User::class)
     <div class="row g-4 mb-5">
 
         {{-- Total Penjualan --}}
         <div class="col-lg-3 col-md-6">
-            <div class="dashboard-card p-4 h-100">
+            <div class="dashboard-card p-4 h-100 shadow-sm border-0 rounded-4">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <small class="text-muted fw-medium">Total Penjualan</small>
-                        <h3 class="fw-bold mt-2 text-coral">
-                            Rp {{ number_format($ringkasan['total_penjualan']) }}
+                        <h3 class="fw-bold mt-2 text-coral mb-0">
+                            Rp {{ number_format($ringkasan['total_penjualan'] ?? 0) }}
                         </h3>
                     </div>
                     <div class="icon-shape-soft">
@@ -69,12 +96,12 @@
 
         {{-- Jumlah Transaksi --}}
         <div class="col-lg-3 col-md-6">
-            <div class="dashboard-card p-4 h-100">
+            <div class="dashboard-card p-4 h-100 shadow-sm border-0 rounded-4">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <small class="text-muted fw-medium">Jumlah Transaksi</small>
-                        <h3 class="fw-bold mt-2 text-coral">
-                            {{ $ringkasan['total_transaksi'] }}
+                        <h3 class="fw-bold mt-2 text-coral mb-0">
+                            {{ $ringkasan['total_transaksi'] ?? 0 }}
                         </h3>
                     </div>
                     <div class="icon-shape-soft">
@@ -86,12 +113,12 @@
 
         {{-- Pembayaran Tunai --}}
         <div class="col-lg-3 col-md-6">
-            <div class="dashboard-card p-4 h-100">
+            <div class="dashboard-card p-4 h-100 shadow-sm border-0 rounded-4">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <small class="text-muted fw-medium">Pembayaran Tunai</small>
-                        <h3 class="fw-bold mt-2 text-coral">
-                            Rp {{ number_format($ringkasan['total_cash']) }}
+                        <h3 class="fw-bold mt-2 text-coral mb-0">
+                            Rp {{ number_format($ringkasan['total_cash'] ?? 0) }}
                         </h3>
                     </div>
                     <div class="icon-shape-soft">
@@ -103,12 +130,12 @@
 
         {{-- Non Tunai --}}
         <div class="col-lg-3 col-md-6">
-            <div class="dashboard-card p-4 h-100">
+            <div class="dashboard-card p-4 h-100 shadow-sm border-0 rounded-4">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <small class="text-muted fw-medium">Non Tunai</small>
-                        <h3 class="fw-bold mt-2 text-coral">
-                            Rp {{ number_format($ringkasan['total_non_tunai']) }}
+                        <h3 class="fw-bold mt-2 text-coral mb-0">
+                            Rp {{ number_format($ringkasan['total_non_tunai'] ?? 0) }}
                         </h3>
                     </div>
                     <div class="icon-shape-soft">
@@ -119,16 +146,15 @@
         </div>
 
     </div>
-    @endcan
 
     {{-- =========================
-        INVENTORY (STOK & HABIS)
+         INVENTORY (STOK & HABIS)
     ========================= --}}
     <div class="row g-4 mb-5">
 
         {{-- Stok Rendah --}}
         <div class="col-lg-6">
-            <div class="dashboard-card h-100">
+            <div class="dashboard-card h-100 shadow-sm border-0 rounded-4">
                 <div class="card-header border-0 py-3 px-4" style="background:#fde8e5; border-radius:18px 18px 0 0;">
                     <h5 class="mb-0 fw-bold text-coral">
                         <i class="bi bi-exclamation-triangle-fill me-2"></i> Produk Stok Rendah
@@ -139,7 +165,7 @@
                         <table class="table align-middle mb-0">
                             <thead>
                                 <tr>
-                                    <th width="15%">No</th>
+                                    <th width="10%">No</th>
                                     <th>Produk</th>
                                     <th class="text-center">Stok</th>
                                 </tr>
@@ -148,9 +174,14 @@
                             @forelse($produkStokRendah as $index => $produk)
                                 <tr>
                                     <td>{{ $produkStokRendah->firstItem() + $index }}</td>
-                                    <td class="fw-semibold">{{ $produk->nama }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="{{ asset($produk->foto ?? 'images/outfit-sample.jpg') }}" class="product-img-thumb" alt="Product">
+                                            <span class="fw-semibold">{{ $produk->nama }}</span>
+                                        </div>
+                                    </td>
                                     <td class="text-center">
-                                        <span class="badge-warning-soft">{{ $produk->stok }}</span>
+                                        <span class="badge bg-warning text-dark px-3 py-2 rounded-pill">{{ $produk->stok }}</span>
                                     </td>
                                 </tr>
                             @empty
@@ -173,7 +204,7 @@
 
         {{-- Produk Habis --}}
         <div class="col-lg-6">
-            <div class="dashboard-card h-100">
+            <div class="dashboard-card h-100 shadow-sm border-0 rounded-4">
                 <div class="card-header border-0 py-3 px-4" style="background:#fde8e5; border-radius:18px 18px 0 0;">
                     <h5 class="mb-0 fw-bold text-coral">
                         <i class="bi bi-x-circle-fill me-2"></i> Produk Habis
@@ -184,7 +215,7 @@
                         <table class="table align-middle mb-0">
                             <thead>
                                 <tr>
-                                    <th width="15%">No</th>
+                                    <th width="10%">No</th>
                                     <th>Produk</th>
                                     <th class="text-center">Stok</th>
                                 </tr>
@@ -193,9 +224,14 @@
                             @forelse($produkStokHabis as $index => $produk)
                                 <tr>
                                     <td>{{ $produkStokHabis->firstItem() + $index }}</td>
-                                    <td class="fw-semibold">{{ $produk->nama }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center gap-3">
+                                            <img src="{{ asset($produk->foto ?? 'images/outfit-sample.jpg') }}" class="product-img-thumb" alt="Product">
+                                            <span class="fw-semibold">{{ $produk->nama }}</span>
+                                        </div>
+                                    </td>
                                     <td class="text-center">
-                                        <span class="badge-danger-soft">{{ $produk->stok }}</span>
+                                        <span class="badge bg-danger px-3 py-2 rounded-pill">{{ $produk->stok }}</span>
                                     </td>
                                 </tr>
                             @empty
@@ -219,15 +255,15 @@
     </div>
 
     {{-- =========================
-        BEST SELLER
+         BEST SELLER
     ========================= --}}
-    <div class="dashboard-card mb-5">
+    <div class="dashboard-card mb-5 shadow-sm border-0 rounded-4">
         <div class="card-header border-0 py-3 px-4" style="background:#fde8e5; border-radius:18px 18px 0 0;">
             <div class="d-flex justify-content-between align-items-center">
                 <h4 class="fw-bold mb-0 text-coral">
                     <i class="bi bi-trophy-fill me-2"></i> Best Seller Products
                 </h4>
-                <span class="badge badge-pink">
+                <span class="badge bg-white text-coral px-3 py-2 rounded-pill">
                     {{ count($produkTerlaris) }} Produk
                 </span>
             </div>
@@ -246,25 +282,24 @@
                     <tbody>
                     @forelse($produkTerlaris as $index => $produk)
                         <tr>
-                            <td>
-                                @if($index == 0)
-                                    🥇
-                                @elseif($index == 1)
-                                    🥈
-                                @elseif($index == 2)
-                                    🥉
-                                @else
-                                    {{ $index + 1 }}
+                            <td class="fw-bold">
+                                @if($index == 0) 🥇
+                                @elseif($index == 1) 🥈
+                                @elseif($index == 2) 🥉
+                                @else {{ $index + 1 }}
                                 @endif
                             </td>
                             <td>
-                                <div class="fw-bold">{{ $produk->nama }}</div>
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="{{ asset($produk->foto ?? 'images/outfit-sample.jpg') }}" class="product-img-thumb" alt="Product">
+                                    <div class="fw-bold">{{ $produk->nama }}</div>
+                                </div>
                             </td>
                             <td class="text-center">
-                                <span class="badge badge-pink">{{ $produk->stok }}</span>
+                                <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">{{ $produk->stok }}</span>
                             </td>
                             <td class="text-center">
-                                <strong class="fw-bold text-coral">{{ $produk->total_terjual }}</strong>
+                                <strong class="fw-bold text-coral fs-5">{{ $produk->total_terjual }}</strong>
                             </td>
                         </tr>
                     @empty
